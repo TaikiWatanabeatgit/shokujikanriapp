@@ -5,4 +5,4 @@ return [
     'username' => 'root',
     'password' => 'rootroot',
     'charset' => 'utf8mb4'
-]; 
+];

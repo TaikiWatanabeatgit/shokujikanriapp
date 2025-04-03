@@ -10,6 +10,9 @@ ini_set('session.cookie_lifetime', $config['session_lifetime']);
 session_name($config['session_name']);
 session_start();
 
+// データベース関連のクラスを読み込み
+require_once 'includes/MealRecord.php';
+
 // データ保存用のファイルパス
 $dataFile = $config['data_file'];
 
@@ -18,11 +21,13 @@ $error_message = '';
 
 // データの読み込み
 function loadMealRecords() {
-    global $dataFile;
-    if (file_exists($dataFile)) {
-        return unserialize(file_get_contents($dataFile)) ?: [];
-    }
-    return [];
+    $mealRecord = new MealRecord();
+    return $mealRecord->getAll();
+}
+
+// トークンの生成
+if (!isset($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
 }
 
 // 検索結果の初期化
@@ -236,7 +241,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <div class="nav-links">
         <a href="syokujinyuryoku.php">記録入力</a>
-        <a href="syokujikensaku.php">記録検索</a>
+        <a href="syokujisummary.php">記録サマリー</a>
     </div>
 
     <div class="search-forms">
@@ -270,7 +275,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if (isset($_POST['search_name'])) {
                         echo htmlspecialchars($search_name) . 'を含む記録は見つかりませんでした。';
                     } else {
-                        echo '指定された日付の記録は見つかりませんでした。';
+                        echo 'その日は記録していないようです。';
                     }
                 ?></p>
             </div>

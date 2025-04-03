@@ -27,13 +27,13 @@ class MealRecord {
     }
 
     public function getAll() {
-        $sql = "SELECT * FROM meal_records ORDER BY date DESC";
+        $sql = "SELECT * FROM meal_records WHERE deleted_at IS NULL ORDER BY date DESC";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
     }
 
     public function getById($id) {
-        $sql = "SELECT * FROM meal_records WHERE id = :id";
+        $sql = "SELECT * FROM meal_records WHERE id = :id AND deleted_at IS NULL";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':id' => $id]);
         return $stmt->fetch();
@@ -45,7 +45,7 @@ class MealRecord {
                     snack = :snack, breakfast_calories = :breakfast_calories, 
                     lunch_calories = :lunch_calories, dinner_calories = :dinner_calories, 
                     snack_calories = :snack_calories 
-                WHERE id = :id";
+                WHERE id = :id AND deleted_at IS NULL";
         
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
@@ -63,7 +63,7 @@ class MealRecord {
     }
 
     public function delete($id) {
-        $sql = "DELETE FROM meal_records WHERE id = :id";
+        $sql = "UPDATE meal_records SET deleted_at = CURRENT_TIMESTAMP WHERE id = :id AND deleted_at IS NULL";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([':id' => $id]);
     }

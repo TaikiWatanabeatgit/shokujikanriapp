@@ -372,7 +372,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1><?php echo htmlspecialchars($config['app_name']); ?> - 記録入力</h1>
         
         <div class="nav-links">
-        <a href="syokujinyuryoku.php">記録入力</a>
+        <a href="syokujisummary.php">記録サマリー</a>
         <a href="syokujikensaku.php">記録検索</a>
     </div>
 
@@ -413,7 +413,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mealRecord = new MealRecord();
             $records = $mealRecord->getAll();
             if (empty($records)) {
-                echo "<p>まだ記録がありません。</p>";
+                echo "<p>食事を記録してみましょう。</p>";
             } else {
                 foreach ($records as $record) {
                     echo "<div class='record'>";
