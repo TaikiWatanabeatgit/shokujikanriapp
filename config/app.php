@@ -24,5 +24,14 @@ return array(
     
     // デバッグ設定
     'debug' => true,
-    'error_reporting' => E_ALL
+    'error_reporting' => E_ALL,
+
+    //セキュリティの設定
+    'security' => array(
+        'output_encoding' => array(
+            'default_charset' => 'UTF-8',
+            'content_type' => 'text/html; charset=UTF-8',
+            'force_encoding' => true
+        )
+    )
 ); 
