@@ -92,4 +92,38 @@ class MealRecordController extends Controller
         return redirect()->route('meal-records.index')
             ->with('success', '食事記録が正常に削除されました。');
     }
+
+    /**
+     * Display the summary of meal records.
+     */
+    public function summary()
+    {
+        $today = now()->format('Y-m-d');
+        $currentMonth = now()->format('Y-m');
+        
+        // 今日の記録
+        $todayRecords = MealRecord::whereDate('date', $today)
+            ->orderBy('meal_type')
+            ->get();
+        
+        // 過去の記録（今日以外）
+        $pastRecords = MealRecord::whereDate('date', '<', $today)
+            ->orderBy('date', 'desc')
+            ->get();
+        
+        // 今月の合計カロリー
+        $monthlyTotalCalories = MealRecord::whereYear('date', now()->year)
+            ->whereMonth('date', now()->month)
+            ->sum('calories');
+        
+        // 過去の平均カロリー（今日以外）
+        $pastAverageCalories = $pastRecords->avg('calories') ?? 0;
+        
+        return view('meal-records.summary', compact(
+            'todayRecords',
+            'pastRecords',
+            'monthlyTotalCalories',
+            'pastAverageCalories'
+        ));
+    }
 }

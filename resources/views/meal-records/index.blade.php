@@ -3,7 +3,10 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>食事記録一覧</h1>
-        <a href="{{ route('meal-records.create') }}" class="btn btn-primary">新規記録</a>
+        <div>
+            <a href="{{ route('meal-records.summary') }}" class="btn btn-info me-2">サマリー</a>
+            <a href="{{ route('meal-records.create') }}" class="btn btn-primary">新規記録</a>
+        </div>
     </div>
 
     <div class="table-responsive">

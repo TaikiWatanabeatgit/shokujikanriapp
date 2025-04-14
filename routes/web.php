@@ -8,6 +8,7 @@ Route::get('/', function () {
 });
 
 Route::get('/meal-records', [MealRecordController::class, 'index'])->name('meal-records.index');
+Route::get('/meal-records/summary', [MealRecordController::class, 'summary'])->name('meal-records.summary');
 Route::get('/meal-records/create', [MealRecordController::class, 'create'])->name('meal-records.create');
 Route::post('/meal-records', [MealRecordController::class, 'store'])->name('meal-records.store');
 Route::get('/meal-records/{id}', [MealRecordController::class, 'show'])->name('meal-records.show');
